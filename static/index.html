@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ruijie's Chess AI</title>
+		<link rel="stylesheet" href="/css/chessboard-0.3.0.min.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	</head>
+	<body>
+		<div id="board" style="width: 400px; margin: auto;"></div>
+		<br>
+		<br>
+		<div class="row">
+			<div style="margin: auto;">
+				<button type="button" class="btn btn-primary" id="HumanVsAI">Human vs AI</button>
+				<button type="button" class="btn btn-primary" id="AIvsHUMAN">AI vs Human</button>
+				<button type="button" class="btn btn-success" id="selfPlay">AI vs AI</button>
+			</div>
+
+		</div>
+		<br>
+		<div style="margin:auto;">
+			<p>Status: <span id="status"></span></p>
+			<p>FEN: <span id="fen"></span></p>
+			<p>PGN: <span id="pgn"></span></p>
+		</div>
+
+		<script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="/js/chessboard-0.3.0.min.js"></script>
+		<script type="text/javascript" src="/js/json3.min.js"></script>
+		<script type="text/javascript" src="/js/chess.js"></script>
+		<script type="text/javascript" src="/js/game.js"></script>
+	</body>
+</html>
