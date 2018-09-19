@@ -3,6 +3,8 @@ let BLACK = 'b';
 let HUMAN = 'HUMAN';
 let AI = 'AI';
 
+let POST_URL = "https://k6fi8b00l3.execute-api.us-east-1.amazonaws.com/dev/next_move"
+
 /*
 Game class
 */

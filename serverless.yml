@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: chess_serverless
+service: chess-ai-serverless
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -20,6 +20,19 @@ service: chess_serverless
 provider:
   name: aws
   runtime: python3.6
+
+
+functions:
+  next_move:
+    handler: handler.next_move
+    events:
+      - http:
+          path: next_move/{move_count}
+          method: post
+          request:
+            parameters:
+              paths:
+                move_count: true
 
 # you can overwrite defaults here
 #  stage: dev
@@ -54,9 +67,6 @@ provider:
 #    - exclude-me.py
 #    - exclude-me-dir/**
 
-functions:
-  hello:
-    handler: handler.hello
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

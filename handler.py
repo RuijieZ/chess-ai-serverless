@@ -1,15 +1,12 @@
 import json
 
 
-def hello(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+def next_move(event, context):
+    data = json.loads(event['body'])
 
     response = {
         "statusCode": 200,
-        "body": json.dumps(body)
+        "body": json.dumps(data)
     }
 
     return response
