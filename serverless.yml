@@ -22,9 +22,17 @@ provider:
   runtime: python3.6
 
 
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
+
 functions:
   next_move:
-    handler: handler.next_move
+    handler: src.handler.next_move
     events:
       - http:
           path: next_move/{move_count}

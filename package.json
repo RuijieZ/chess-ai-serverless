@@ -1,0 +1,22 @@
+{
+  "name": "chess_serverless",
+  "version": "1.0.0",
+  "description": "Host my chess ai on AWS serverless framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuijieZ/chess-ai-serverless.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RuijieZ/chess-ai-serverless/issues"
+  },
+  "homepage": "https://github.com/RuijieZ/chess-ai-serverless#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^4.2.4"
+  }
+}
