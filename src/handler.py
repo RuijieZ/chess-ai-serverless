@@ -1,5 +1,7 @@
 import json
 from chess import Board
+import subprocess as s
+from pathlib import Path
 from src.opening import opening_book_next_move
 from src.endgame import query_end_game_move, is_endgame
 
@@ -12,14 +14,20 @@ def next_move(event, context):
     if move_count is None:
         response = {
             "statusCode": 422,
-            "body": "missing move_count in move path"
+            "body": "missing move_count in move path",
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            }
         }
         print(response['body'])
         return response
     elif fen is None:
         response = {
             "statusCode": 422,
-            "body": "missing fen in the post body"
+            "body": "missing fen in the post body",
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            }
         }
         print(response['body'])
         return response
@@ -31,52 +39,40 @@ def next_move(event, context):
         if move is not None:
             return {
                 "statusCode": 200,
-                "body": move
+                "body": json.dumps({'move': move}),
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                }
             }
 
     b = Board(fen)
     if is_endgame(b):
         move = query_end_game_move(b.fen())
         if move != None:
-            return move
+            return {
+                "statusCode": 200,
+                "body": json.dumps({'move': move}),
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            }
 
     if b.turn:
         side = '0'  # white
     else:
         side = '1'
 
+    # my_file = Path("./src/cpp/main")
+    # if not my_file.is_file():   # our binary is not there, we should compile it first
+    #     print("Compiling the executable")
+    #     s.run(["make", "-C", "./src/cpp/"], stdout=s.PIPE)
+
+    cmd_result = s.run(['./src/cpp/main', fen ,side], stdout=s.PIPE)
+    move = cmd_result.stdout.decode('utf-8').split("\n")[-2]
     return {
         "statusCode": 200,
-        "body": 'none'
+        "body": json.dumps({'move': move}),
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        }
     }
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
-
-# def next_move(count):
-#     count = int(count) // 2
-#     fen = request.form['fen']
-#     if count <= 5:
-#         move = opening_book_next_move(fen, 'performance.bin')
-#         if move is not None:
-#             return move
-
-#     # use the c version one
-#     b = Board(fen)
-#     if is_endgame(b):
-#         move = query_end_game_move(b.fen())
-#         if move != None:
-#             return move
-
-#     if b.turn:
-#         side = '0'  # white
-#     else:
-#         side = '1'
-#     result = s.run(['./ai/c_modules/main', fen ,side], stdout=s.PIPE)
-#     move = result.stdout.decode('utf-8').split("\n")[-2]

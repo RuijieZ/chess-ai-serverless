@@ -1,2 +1,2 @@
 all:
-	g++ *.cc  -o main -Ofast -std=c++11
+	gcc *.cc  -o main -Ofast -std=c++11

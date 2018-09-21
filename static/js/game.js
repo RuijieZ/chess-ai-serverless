@@ -3,7 +3,7 @@ let BLACK = 'b';
 let HUMAN = 'HUMAN';
 let AI = 'AI';
 
-let POST_URL = "https://k6fi8b00l3.execute-api.us-east-1.amazonaws.com/dev/next_move"
+let POST_URL = "https://k6fi8b00l3.execute-api.us-east-1.amazonaws.com/dev/next_move/"
 
 /*
 Game class
@@ -35,9 +35,11 @@ function queryNextMove(async) {
 
     $.ajax({
         type: 'POST',
-        url:  '/next_move/'+window.game.stepCount.toString(),
-        data: data,
+        url:  POST_URL+window.game.stepCount.toString(),
+        data: JSON.stringify(data),
         success: function(result) {
+            console.log('the move returned from server is: ' + result['move']);
+            result = result['move'];
             var serverMove = {                      // reformat the move so that the frontend code can understand
                 'from': result.substring(0,2),
                 'to': result.substring(2,4)
@@ -46,9 +48,14 @@ function queryNextMove(async) {
                 serverMove['promotion'] = result.substring(4,5);    // promotion
             }
             window.game.chess.move(serverMove);     // make the move
-            console.log('the move returned from server is: ' + result);
             window.game.board.position(window.game.chess.fen());
             updateStatus();
+        },
+        error: function(xhr, status, error) {
+            console.log(status);
+            var err = eval("(" + xhr.responseText + ")");
+            console.log(err.Message);
+            alert(err.Message);
         },
         statusCode: {
           502: function(jqXHR) {

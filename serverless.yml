@@ -20,6 +20,7 @@ service: chess-ai-serverless
 provider:
   name: aws
   runtime: python3.6
+  timeout: 30 # optional, in seconds, default is 6
 
 
 plugins:
@@ -37,6 +38,7 @@ functions:
       - http:
           path: next_move/{move_count}
           method: post
+          cors: true
           request:
             parameters:
               paths:
